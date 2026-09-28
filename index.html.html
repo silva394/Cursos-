@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ASE — Academia de Formação em Segurança e Emergências Ltda</title>
+<style>
+*{margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', Roboto, Arial, sans-serif;}
+:root{
+  --vermelho:#C62828; --laranja:#FF6D00; --dourado:#FFC107; --verde:#2E7D32;
+  --azul:#0D47A1; --escuro:#1A1A1A; --claro:#F5F5F5; --cinza:#ECEFF1;
+}
+body{background:var(--cinza); min-height:100vh;}
+
+/* TELAS */
+.tela{display:none; min-height:100vh; padding:20px; padding-bottom:80px;}
+.tela.ativa{display:block; animation:aparecer 0.3s ease;}
+@keyframes aparecer{from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);}}
+
+/* CAPA DO APP */
+.capa{
+  background:linear-gradient(135deg, #C62828, #E65100, #FF8F00);
+  min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  color:white; text-align:center; padding:30px;
+}
+.capa-icone{
+  width:180px; height:180px; background:linear-gradient(180deg, #37474F, #263238);
+  border-radius:24px; display:flex; align-items:center; justify-content:center; font-size:90px;
+  margin-bottom:25px; box-shadow:0 10px 30px rgba(0,0,0,0.4); border:4px solid var(--dourado);
+}
+.capa h1{font-size:32px; margin-bottom:5px;}
+.capa h2{font-size:15px; font-weight:normal; opacity:0.9; margin-bottom:10px;}
+.capa p{font-size:13px; opacity:0.8; margin-bottom:40px; line-height:1.5;}
+.entrar-btn{
+  background:white; color:var(--vermelho); border:none; padding:16px 45px; font-size:18px;
+  font-weight:bold; border-radius:12px; cursor:pointer; box-shadow:0 4px 15px rgba(0,0,0,0.2);
+  transition:transform 0.2s;
+}
+.entrar-btn:hover{transform:translateY(-3px);}
+.versao{margin-top:30px; font-size:12px; opacity:0.7;}
+
+/* CABEÇALHO */
+.cabecalho{
+  background:linear-gradient(90deg, #C62828, #E65100); color:white; padding:12px 20px;
+  position:sticky; top:0; z-index:100; display:flex; justify-content:space-between; align-items:center;
+  box-shadow:0 3px 10px rgba(0,0,0,0.2);
+}
+.logo-nome{display:flex; align-items:center; gap:10px;}
+.logo-mini{width:38px; height:38px; background:var(--dourado); border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:20px; color:#000; font-weight:bold;}
+.menu-btn{background:rgba(255,255,255,0.2); border:none; color:white; width:40px; height:40px; border-radius:50%; font-size:20px; cursor:pointer;}
+
+/* MENU LATERAL */
+.menu-lateral{
+  position:fixed; top:0; left:0; width:290px; height:100vh; background:white; box-shadow:4px 0 20px rgba(0,0,0,0.2);
+  z-index:200; transform:translateX(-100%); transition:transform 0.3s ease; padding:20px; overflow-y:auto;
+}
+.menu-lateral.aberto{transform:translateX(0);}
+.fechar-menu{position:absolute; top:15px; right:15px; background:none; border:none; font-size:24px; cursor:pointer; color:#666;}
+.menu-perfil{text-align:center; padding:20px 0; border-bottom:1px solid #eee; margin-bottom:15px;}
+.menu-perfil .avatar{font-size:45px; margin-bottom:8px;}
+.menu-perfil h3{font-size:16px; color:#333;}
+.menu-perfil p{font-size:12px; color:#888; margin-top:4px;}
+.menu-item{
+  display:flex; align-items:center; gap:12px; padding:13px; color:#333; text-decoration:none;
+  border-radius:8px; margin-bottom:4px; cursor:pointer; transition:background 0.2s; font-size:15px;
+}
+.menu-item:hover, .menu-item.ativo{background:#FFEBEE; color:var(--vermelho); font-weight:bold;}
+.area-adm{background:#FFF8E1; border:2px solid var(--dourado); margin-top:15px;}
+
+/* TÍTULOS E SEÇÕES */
+.titulo-secao{font-size:22px; font-weight:bold; margin:10px 0 5px; display:flex; align-items:center; gap:8px;}
+.subtitulo{font-size:14px; color:#666; margin-bottom:20px; line-height:1.5;}
+.caixa-info{background:white; border-radius:12px; padding:18px; margin:15px 0; box-shadow:0 2px 8px rgba(0,0,0,0.06); line-height:1.6;}
+.aviso{background:#FFF3E0; border-left:4px solid #FF9800; padding:12px 15px; margin:15px 0; font-size:14px; border-radius:0 8px 8px 0;}
+.aviso-importante{background:#E3F2FD; border-left:4px solid var(--azul);}
+
+/* BOTÕES */
+.btn{border:none; padding:12px 18px; border-radius:8px; font-weight:bold; cursor:pointer; font-size:14px; transition:all 0.2s;}
+.btn:active{transform:scale(0.97);}
+.btn-principal{background:linear-gradient(180deg, #C62828, #B71C1C); color:white; width:100%; margin:6px 0;}
+.btn-principal:hover{box-shadow:0 4px 12px rgba(198,40,40,0.3);}
+.btn-whatsapp{background:#25D366; color:white; display:flex; align-items:center; justify-content:center; gap:8px; width:100%; margin:6px 0;}
+.btn-pix{background:linear-gradient(180deg, #2E7D32, #1B5E20); color:white; width:100%; margin:6px 0;}
+.btn-secundario{background:#E0E0E0; color:#333;}
+.btn-reciclagem{background:var(--dourado); color:#000; width:100%;}
+.btn-pequeno{padding:8px 12px; font-size:13px;}
+.btn-confirmar{background:var(--verde); color:white;}
+.btn-bloqueado{background:#BDBDBD; color:#666; cursor:not-allowed;}
+
+/* CURSOS */
+.cursos-grid{display:grid; gap:15px; margin-top:10px;}
+.curso-card{
+  background:white; border-radius:12px; padding:18px; box-shadow:0 3px 10px rgba(0,0,0,0.06);
+  border-left:5px solid; transition:transform 0.2s;
+}
+.curso-card:hover{transform:translateY(-2px);}
+.curso-bombeiro{border-color:#C62828;}
+.curso-guarda{border-color:#2E7D32;}
+.curso-socorrista{border-color:#1976D2;}
+.curso-brigadista{border-color:#FF6D00;}
+.curso-salva{border-color:#7B1FA2;}
+.curso-portaria{border-color:#455A64;}
+.curso-titulo{font-size:17px; font-weight:bold; margin-bottom:6px;}
+.curso-valor{font-size:20px; font-weight:bold; color:var(--vermelho); margin:8px 0;}
+.curso-desc{font-size:13px; color:#666; margin-bottom:12px; line-height:1.5;}
+.botoes-curso{display:flex; gap:8px; flex-wrap:wrap;}
+
+/* AULAS */
+.curso-selecionado{background:white; border-radius:12px; padding:20px; margin-bottom:20px; box-shadow:0 3px 10px rgba(0,0,0,0.08);}
+.voltar-btn{background:none; border:none; color:var(--azul); font-size:14px; cursor:pointer; margin-bottom:15px; display:inline-flex; align-items:center; gap:5px;}
+.aula-item{
+  padding:14px; border-bottom:1px solid #eee; cursor:pointer; transition:background 0.2s; display:flex; justify-content:space-between; align-items:center;
+}
+.aula-item:last-child{border-bottom:none;}
+.aula-item:hover{background:#F5F5F5;}
+.aula-num{font-weight:bold; color:var(--vermelho); margin-right:10px;}
+.aula-nome{flex:1; font-size:15px;}
+.aula-status{font-size:12px; padding:3px 8px; border-radius:10px;}
+.status-liberado{background:#C8E6C9; color:#2E7D32;}
+.status-bloqueado{background:#F5F5F5; color:#999;}
+.status-concluido{background:#C8E6C9; color:#2E7D32;}
+
+/* CONTEÚDO DA AULA */
+.aula-conteudo{background:white; border-radius:12px; padding:20px; margin-top:15px; box-shadow:0 3px 10px rgba(0,0,0,0.08);}
+.aula-titulo{font-size:20px; font-weight:bold; margin-bottom:15px; color:var(--vermelho);}
+.aula-corpo{font-size:15px; line-height:1.8; color:#333;}
+.aula-corpo h3{font-size:17px; margin:20px 0 10px; color:var(--escuro); border-left:3px solid var(--laranja); padding-left:10px;}
+.aula-corpo ul, .aula-corpo ol{margin:10px 0 10px 25px;}
+.aula-corpo li{margin:6px 0;}
+.aula-corpo p{margin:10px 0;}
+.aula-corpo strong{color:var(--vermelho);}
+.aula-navegacao{display:flex; justify-content:space-between; margin-top:25px; padding-top:15px; border-top:1px solid #eee;}
+.prova-area{background:#FFF8E1; border-radius:10px; padding:20px; margin-top:20px; border:2px solid var(--dourado);}
+.prova-pergunta{margin-bottom:18px;}
+.prova-pergunta p{font-weight:bold; margin-bottom:8px;}
+.prova-alternativa{display:block; padding:8px; margin:5px 0; background:white; border-radius:6px; cursor:pointer; border:1px solid #ddd;}
+.prova-alternativa:hover{border-color:var(--laranja);}
+.nota-final{font-size:24px; font-weight:bold; text-align:center; margin:15px 0;}
+.aprovado{color:var(--verde);}
+.reprovado{color:var(--vermelho);}
+
+/* CERTIFICADO */
+.certificado{
+  background:white; border:8px solid var(--dourado); padding:30px 20px; margin:20px 0;
+  text-align:center; box-shadow:0 5px 20px rgba(255,193,7,0.25); max-width:520px; margin-left:auto; margin-right:auto;
+}
+.cert-cabecalho{margin-bottom:20px;}
+.cert-titulo{font-size:13px; text-transform:uppercase; letter-spacing:2px; color:#666;}
+.cert-empresa{font-size:20px; font-weight:bold; color:var(--vermelho); margin:8px 0;}
+.cert-cnpj{font-size:11px; color:#888; margin-bottom:20px;}
+.cert-corpo{margin:25px 0;}
+.cert-reconhecimento{font-size:14px; color:#555; margin-bottom:10px;}
+.cert-nome-aluno{font-size:22px; font-weight:bold; border-bottom:2px solid #ddd; display:inline-block; padding:0 25px; margin:10px 0;}
+.cert-curso{font-size:16px; margin:15px 0;}
+.cert-carga-horaria{font-size:14px; color:#666;}
+.cert-data{font-size:13px; color:#666; margin-top:20px;}
+.cert-assinaturas{display:flex; justify-content:space-around; margin-top:40px; font-size:11px; flex-wrap:wrap; gap:20px;}
+.assinatura{border-top:1px solid #333; padding-top:10px; width:150px;}
+.cert-id{font-size:11px; color:#999; margin-top:15px; font-family:monospace;}
+
+/* CARTEIRINHA */
+.carteirinha{
+  background:linear-gradient(135deg, #0D47A1, #1565C0); color:white; border-radius:16px; padding:25px;
+  max-width:360px; margin:20px auto; box-shadow:0 8px 25px rgba(13,71,161,0.3);
+}
+.cart-cabecalho{text-align:center; border-bottom:1px solid rgba(255,255,255,0.3); padding-bottom:12px; margin-bottom:15px;}
+.cart-icone{font-size:40px; margin-bottom:5px;}
+.cart-dados p{margin:8px 0; font-size:14px;}
+.cart-dados strong{color:var(--dourado);}
+.cart-rodape{margin-top:18px; padding-top:12px; border-top:1px solid rgba(255,255,255,0.3); font-size:12px; text-align:center; opacity:0.9;}
+
+/* PAGAMENTO */
+.pix-caixa{background:#E8F5E9; border:2px dashed var(--verde); border-radius:10px; padding:20px; text-align:center; margin:15px 0;}
+.pix-chave{font-family:monospace; font-size:18px; font-weight:bold; color:var(--verde); margin:10px 0;}
+.dados-pagamento{background:white; border-radius:10px; padding:15px; margin:10px 0; line-height:2;}
+
+/* CHAT */
+.chat-janela{background:white; border-radius:10px; overflow:hidden; box-shadow:0 2px 10px rgba(0,0,0,0.1);}
+.chat-mensagens{height:350px; overflow-y:auto; padding:15px; background:#fafafa;}
+.msg{margin-bottom:12px; padding:10px 14px; border-radius:18px; max-width:75%; line-height:1.4; font-size:14px;}
+.msg-aluno{background:#E3F2FD; margin-left:0; border-bottom-left-radius:4px;}
+.msg-instrutor{background:#C8E6C9; margin-left:auto; border-bottom-right-radius:4px;}
+.msg-horario{font-size:10px; opacity:0.7; margin-top:4px; text-align:right;}
+.chat-envio{display:flex; padding:10px; gap:8px; border-top:1px solid #eee;}
+.chat-envio input{flex:1; padding:12px; border:1px solid #ddd; border-radius:8px; font-size:14px;}
+.chat-envio button{background:var(--vermelho); color:white; border:none; padding:0 20px; border-radius:8px; cursor:pointer; font-weight:bold;}
+
+/* ÁREA ADMINISTRATIVA */
+.senha-modal{
+  position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.5); display:flex; align-items:center; justify-content:center;
+  z-index:300;
+}
+.senha-caixa{background:white; padding:30px; border-radius:12px; max-width:340px; width:90%; text-align:center; box-shadow:0 10px 30px rgba(0,0,0,0.3);}
+.senha-caixa h3{margin-bottom:15px;}
+.senha-caixa input{width:100%; padding:12px; margin:10px 0; border:2px solid #ddd; border-radius:8px; font-size:16px; text-align:center;}
+.senha-erro{color:red; margin-top:10px; display:none;}
+.adm-secao{margin-bottom:25px; padding-bottom:20px; border-bottom:1px solid #eee;}
+.adm-secao h3{font-size:17px; margin-bottom:12px; color:var(--vermelho);}
+.adm-campo{margin-bottom:12px;}
+.adm-campo label{display:block; font-weight:bold; margin-bottom:5px; font-size:14px;}
+.adm-campo input, .adm-campo textarea, .adm-campo select{width:100%; padding:10px; border:1px solid #ddd; border-radius:8px; font-size:14px;}
+.adm-campo textarea{min-height:80px; resize:vertical;}
+.lista-alunos{margin-top:10px;}
+.aluno-item{padding:10px; background:white; border-radius:6px; margin-bottom:6px; display:flex; justify-content:space-between; align-items:center;}
+.sucesso{color:var(--verde); font-weight:bold; margin-top:10px; display:none;}
+
+/* RODAPÉ */
+.rodape{text-align:center; padding:25px; color:#666; font-size:12px; margin-top:30px; border-top:1px solid #ddd;}
+.escondido{display:none !important;}
+.copiado{background:var(--verde); color:white; padding:5px 10px; border-radius:4px; font-size:12px; margin-left:8px; display:none;}
+</style>
+</head>
+<body>
+
+<!-- TELA DE CAPA -->
+<div class="tela ativa" id="telaCapa">
+  <div class="capa">
+    <div class="capa-icone">🚒</div>
+    <h1>ASE</h1>
+    <h2>Academia de Formação em Segurança e Emergências Ltda</h2>
+    <p>CNPJ: 67.877.679/0001-72<br>Instrutor: Rodrigo<br>Proprietária: Maria Grazielle</p>
+    <button class="entrar-btn" onclick="entrarApp()">ENTRAR NO APP</button>
+    <p class="versao">Versão 2.0 — Atualizado em 28/09/2026</p>
+  </div>
+</div>
+
+<!-- TELA PRINCIPAL -->
+<div class="tela escondido" id="telaPrincipal">
+  <div class="cabecalho">
+    <button class="menu-btn" onclick="abrirMenu()">☰</button>
+    <div class="logo-nome">
+      <div class="logo-mini">ASE</div>
+      <span style="font-weight:bold;">Academia</span>
+    </div>
+    <button class="menu-btn" onclick="compartilharApp()">↗</button>
+  </div>
+
+  <!-- MENU -->
+  <div class="menu-lateral" id="menuLateral">
+    <button class="fechar-menu" onclick="fecharMenu()">✕</button>
+    <div class="menu-perfil">
+      <div class="avatar">👤</div>
+      <h3 id="mNome">Aluno</h3>
+      <p id="mStatus">Não inscrito</p>
+    </div>
+    <nav>
+      <a class="menu-item ativo" onclick="ir('inicio')">🏠 Início</a>
+      <a class="menu-item" onclick="ir('cursos')">📚 Cursos Disponíveis</a>
+      <a class="menu-item" onclick="ir('reciclagem')">🔄 Reciclagem</a>
+      <a class="menu-item" onclick="ir('meus-cursos')">📖 Meus Cursos</a>
+      <a class="menu-item" onclick="ir('certificados')">📜 Certificados</a>
+      <a class="menu-item" onclick="ir('carteirinha')">🪪 Carteirinha</a>
+      <a class="menu-item" onclick="ir('pagamento')">💰 Pagamento</a>
+      <a class="menu-item" onclick="ir('chat')">💬 Falar com Instrutor</a>
+      <a class="menu-item" onclick="ir('sobre')">ℹ️ Sobre</a>
+      <a class="menu-item area-adm" onclick="abrirADM()">🔐 Área da Proprietária</a>
+    </nav>
+  </div>
+
+  <!-- INÍCIO -->
+  <div id="pag-inicio">
+    <h2 class="titulo-secao">🔥 Bem-vindo à ASE!</h2>
+    <p class="subtitulo">Formação profissional completa em Segurança e Emergências</p>
+    
+    <div class="caixa-info" style="background:#FFF8E1; border-left:4px solid var(--dourado);">
+      <strong>💬 Mensagem da Diretora:</strong><br>
+      Olá! Eu sou <strong>Maria Grazielle</strong>, proprietária da ASE. É com muita alegria que recebemos você! 
+      Nossos cursos estão prontos, com aulas gravadas e material completo. Inscreva-se e comece hoje mesmo!
+    </div>
+
+    <div class="caixa-info">
+      <h3>📋 Como Funciona?</h3>
+      <ol style="margin:10px 0 10px 25px;">
+        <li>Escolha seu curso</li>
+        <li>Faça o pagamento via Pix ou WhatsApp</li>
+        <li>Envie o comprovante no WhatsApp → liberamos suas aulas</li>
+        <li>Estude cada aula (35 min cada)</li>
+        <li>Faça a prova — nota de aprovação: <strong>7,0</strong></li>
+        <li>Aprovado? Receba Certificado + Carteirinha!</li>
+      </ol>
+    </div>
+
+    <div class="caixa-info">
+      <h3>📱 Contato Direto</h3>
+      <p><strong>WhatsApp:</strong> (94) 99202-9425</p>
+      <p><strong>Chave Pix:</strong> 99985480596</p>
+      <button class="btn btn-whatsapp" onclick="abrirWhatsApp()">💬 Falar Agora</button>
+    </div>
+  </div>
+
+  <!-- CURSOS DISPONÍVEIS -->
+  <div id="pag-cursos" class="escondido">
+    <h2 class="titulo-secao">📚 Cursos de Formação</h2>
+    <p class="subtitulo">Cada aula: 35 min • Prova: nota 7,0 para aprovar</p>
+    
+    <div class="cursos-grid">
+      <div class="curso-card curso-bombeiro">
+        <h3 class="curso-titulo">🚒 Bombeiro Civil</h3>
+        <p class="curso-valor">R$ 2.000,00</p>
+        <p class="curso-desc">Prevenção e combate a incêndios, resgate, primeiros socorros, legislação e equipamentos.</p>
+        <div class="botoes-curso">
+          <button class="btn btn-principal" onclick="verAulas('Bombeiro Civil')">VER AULAS</button>
+          <button class="btn btn-whatsapp" onclick="falarComVenda('Bombeiro Civil', 2000)">Comprar</button>
+        </div>
+      </div>
+
+      <div class="curso-card curso-guarda">
+        <h3 class="curso-titulo">🌲 Guarda Florestal</h3>
+        <p class="curso-valor">R$ 900,00</p>
+        <p class="curso-desc">Proteção ambiental, fiscalização, prevenção de incêndios florestais e gestão de áreas verdes.</p>
+        <div class="botoes-curso">
+          <button class="btn btn-principal" onclick="verAulas('Guarda Florestal')">VER AULAS</button>
+          <button class="btn btn-whatsapp" onclick="falarComVenda('Guarda Florestal', 900)">Comprar</button>
+        </div>
+      </div>
+
+      <div class="curso-card curso-socorrista">
+        <h3 class="curso-titulo">⚕️ Socorrista</h3>
+        <p class="curso-valor">R$ 600,00</p>
+        <p class="curso-desc">Atendimento pré-hospitalar, primeiros socorros, suporte de vida e transporte de vítimas.</p>
+        <div class="botoes-curso">
+          <button class="btn btn-principal" onclick="verAulas('Socorrista')">VER AULAS</button>
+          <button class="btn btn-whatsapp" onclick="falarComVenda('Socorrista', 600)">Comprar</button>
+        </div>
+      </div>
+
+      <div class="curso-card curso-brigadista">
+        <h3 class="curso-titulo">🛡️ Brigadista</h3>
+        <p class="curso-valor">R$ 400,00</p>
+        <p class="curso-desc">Prevenção e combate a incêndios empresariais, plano de emergência e evacuação.</p>
+        <div class="botoes-curso">
+          <button class="btn btn-principal" onclick="verAulas('Brigadista')">VER AULAS</button>
+          <button class="btn btn-whatsapp" onclick="falarComVenda('Brigadista', 400)">Comprar</button>
+        </div>
+      </div>
+
+      <div class="curso-card curso-salva">
+        <h3 class="curso-titulo">🏊 Salva-Vidas</h3>
+        <p class="curso-valor">R$ 1.500,00</p>
+        <p class="curso-desc">Salvamento aquático, prevenção de afogamentos, resgate e primeiros socorros na água.</p>
+        <div class="botoes-curso">
+          <button class="btn btn-principal" onclick="verAulas('Salva-Vidas')">VER AULAS</button>
+          <button class="btn btn-whatsapp" onclick="falarComVenda('Salva-Vidas', 1500)">Comprar</button>
+        </div>
+      </div>
+
+      <div class="curso-card curso-portaria">
+        <h3 class="curso-titulo">🏢 Agente de Portaria</h3>
+        <p class="curso-valor">R$ 700,00</p>
+        <p class="curso-desc">Controle de acesso, atendimento, segurança patrimonial e procedimentos operacionais.</p>
+        <div class="botoes-curso">
+          <button class="btn btn-principal" onclick="verAulas('Agente de Portaria')">VER AULAS</button>
+          <button class="btn btn-whatsapp" onclick="falarComVenda('Agente de Portaria', 700)">Comprar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RECICLAGEM -->
+  <div id="pag-reciclagem" class="escondido">
+    <h2 class="titulo-secao">🔄 Reciclagem</h2>
+    <p class="subtitulo">Atualize seus conhecimentos e renove sua certificação</p>
+    <div class="cursos-grid">
+      <div class="curso-card" style="border-color:#FFC107;">
+        <h3>🚒 Bombeiro Civil — Reciclagem</h3>
+        <p class="curso-valor">R$ 1.500,00</p>
+        <button class="btn btn-reciclagem" onclick="falarComVenda('Reciclagem Bombeiro Civil', 1500)">SOLICITAR</button>
+      </div>
+      <div class="curso-card" style="border-color:#2E7D32;">
+        <h3>🌲 Guarda Florestal — Reciclagem</h3>
+        <p class="curso-valor">R$ 800,00</p>
+        <button class="btn btn-reciclagem" onclick="f
